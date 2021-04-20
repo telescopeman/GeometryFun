@@ -1,8 +1,9 @@
+
 public class LinkConnection implements Comparable<LinkConnection>{
 
-    private Connectable point1, point2;
+    public Point3D point1, point2;
 
-    public LinkConnection(Connectable point1, Connectable point2)
+    public LinkConnection(Point3D point1, Point3D point2)
     {
         this.point1 = point1;
         this.point2 = point2;

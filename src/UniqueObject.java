@@ -6,7 +6,6 @@ public abstract class UniqueObject {
         id = IDManager.createID();
     }
 
-
     public long getID()
     {
         return id;

@@ -1,18 +1,48 @@
-import java.util.List;
+import java.util.ArrayList;
 
-public abstract class GeomObject extends UniqueObject {
 
-    private List<Point3D> vertices;
+public abstract class GeomObject extends Point3D  {
 
-    public abstract void connectVertices();
+    private ArrayList<Point3D> vertices = new ArrayList<Point3D>();
 
-    public List<Point3D> getVertices()
+    private boolean frozen = false;
+
+    public abstract void addVertices();
+
+    public void connectVertices()
+    {
+        for (Point3D vertex : vertices)
+        {
+            drawFaces(vertex);
+        }
+    }
+
+    public abstract void drawFaces(Point3D startVertex);
+
+
+    public ArrayList<Point3D> getVertices()
     {
         return vertices;
     }
 
-    public boolean addPoint(Point3D newVertex)
+    public GeomObject(double x, double y, double z)
     {
+        super(x,y,z);
+
+    }
+
+    public void init()
+    {
+        addVertices();
+        frozen = true;
+        connectVertices();
+    }
+
+    public boolean addVertex(Point3D newVertex) {
+        if (frozen)
+        {
+            throw new IllegalStateException("Cannot add a new vertex to a frozen object!");
+        }
         for(Point3D vertex : vertices)
         {
             if (vertex.isEquivalentTo(newVertex))
@@ -22,5 +52,12 @@ public abstract class GeomObject extends UniqueObject {
         }
         vertices.add(newVertex);
         return true;
+    }
+
+
+    public boolean addVertex(double x, double y, double z)
+    {
+        System.out.println("New point at " + x);
+        return addVertex(new Point3D(x + this.x,y + this.y,z + this.z));
     }
 }
